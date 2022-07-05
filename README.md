@@ -1,6 +1,6 @@
 # Vue 3 + TypeScript + Vite
 
-基于 Vue3 + Vite + Vant + Sass+ rem 适配方案 + Axios 封装，手机端模板脚手架
+基于 Vue3 + Vite + Vant + Sass+ rem 适配方案 + Axios 封装 + pinia 状态管理，手机端模板脚手架
 
 ### Node 版本要求
 
