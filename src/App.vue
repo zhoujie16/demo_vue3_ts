@@ -5,8 +5,5 @@
   <router-view />
 </template>
 
-<style lang="scss" scoped>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-}
+<style lang="scss">
 </style>

@@ -1,3 +1,4 @@
+// demo2 页面 数据
 import { defineStore } from "pinia";
 
 export const useDemo2Store = defineStore("demo2", {
