@@ -1,7 +1,16 @@
+<template>
+  <div>
+    <div>{{ test_txt }}</div>
+    <van-button type="primary" @click="test_fn_01">更新数据</van-button>
+    <van-button type="primary" @click="test_fn_02">异步更新数据</van-button>
+  </div>
+</template>
+
 <script lang="ts">
 import { onMounted } from "vue";
 import { useDemo2Store } from "./../../stores/demo2";
 import { storeToRefs } from "pinia";
+
 export default {
   setup() {
     let demo2Store = useDemo2Store();
@@ -31,13 +40,5 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div>
-    <div>{{ test_txt }}</div>
-    <van-button type="primary" @click="test_fn_01">更新数据</van-button>
-    <van-button type="primary" @click="test_fn_02">异步更新数据</van-button>
-  </div>
-</template>
 
  
