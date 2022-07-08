@@ -1,17 +1,17 @@
 <template>
   <div>
     <!-- <StatePoint ref="StatePoint" :dataList="modelData.dataList" :modelImage="modelData.modelImage"></StatePoint> -->
-    <state-point ref="StatePoint" :dataList="modelData.dataList" :modelImage="modelData.modelImage"></state-point>
+    <state-point
+      ref="StatePoint"
+      :dataList="modelData.dataList"
+      :modelImage="modelData.modelImage"
+    ></state-point>
   </div>
 </template>
 <script lang="ts" setup>
 import StatePoint from "@/components/StatePoint/StatePoint.vue";
 import { ref, onBeforeMount, onMounted } from "vue";
-
-const demoImg = (name: string) => {
-  return new URL(`@/assets/image/appearance-in.png`, import.meta.url).href;
-};
-// let demoImg = require("@/assets/image/appearance-in.png");
+import demoImg from "@/assets/image/appearance-in.png";
 
 const modelData: any = {
   // 车型图片

@@ -1,35 +1,69 @@
 <template>
-  <view class="state-point-wrap">
-    <view class="btn-group" v-if="typeModel == 1">
-      <view class="edit-btn" :class="{ 'edit-btn--active': item.active }" v-for="(item, i) in editBtnList" :key="i" @click="editBtnClick(item)">
-        <image class="edit-btn-img" :src="item.png" mode="scaleToFill" style="width: 32rpx;height: 32rpx;"></image>
-        <view class="edit-btn-text">{{ item.title }}</view>
-      </view>
-    </view>
-    <view class="btn-group" v-if="typeModel == 2">
-      <view class="edit-btn" :class="{ 'edit-btn--active': item.active }" v-for="(item, i) in editBtnList_in" :key="i" @click="editBtnClick_in(item)">
-        <image class="edit-btn-img" :src="item.png" mode="scaleToFill" style="width: 32rpx;height: 32rpx;"></image>
-        <view class="edit-btn-text">{{ item.title }}</view>
-      </view>
-    </view>
-    <view class="panel-view">
-      <canvas class="panel-canvas" :style="{
-          width: modelImage.width + 'rpx',
-          height: modelImage.height + 'rpx',
-          left: modelActive.rect.left + 'rpx',
-          top: modelActive.rect.top + 'rpx'
-        }" canvas-id="firstCanvas" id="firstCanvas" @error="canvasIdErrorCallback" @touchstart="canvasClick"></canvas>
-    </view>
-    <view class="panel-name">
-      <view v-for="(item, i) in dataList" :key="i" class="panel-name__name" :class="{
+  <div class="state-point-wrap">
+    <!-- <div class="btn-group" v-if="typeModel == 1">
+      <div
+        class="edit-btn"
+        :class="{ 'edit-btn--active': item.active }"
+        v-for="(item, i) in editBtnList"
+        :key="i"
+        @click="editBtnClick(item)"
+      >
+        <img
+          class="edit-btn-img"
+          :src="item.png"
+          mode="scaleToFill"
+          style="width: 32px; height: 32px"
+        />
+        <div class="edit-btn-text">{{ item.title }}</div>
+      </div>
+    </div> -->
+    <div class="btn-group" v-if="typeModel == 2">
+      <div
+        class="edit-btn"
+        :class="{ 'edit-btn--active': item.active }"
+        v-for="(item, i) in editBtnList_in"
+        :key="i"
+        @click="editBtnClick_in(item)"
+      >
+        <img
+          class="edit-btn-img"
+          :src="item.png"
+          mode="scaleToFill"
+          style="width: 32px; height: 32px"
+        />
+        <div class="edit-btn-text">{{ item.title }}</div>
+      </div>
+    </div>
+    <div class="panel-div norem">
+      <canvas
+        class="panel-canvas"
+        :style="{
+          width: modelImage.width + 'px',
+          height: modelImage.height + 'px',
+          left: modelActive.rect.left + 'px',
+          top: modelActive.rect.top + 'px',
+        }"
+        id="firstCanvas"
+        @error="canvasIdErrorCallback"
+        @touchstart="canvasClick"
+      ></canvas>
+    </div>
+    <div class="panel-name">
+      <div
+        v-for="(item, i) in dataList"
+        :key="i"
+        class="panel-name__name"
+        :class="{
           'panel-name__name--active': i === activeIndex,
           'panel-name__name--pd1': typeModel == 1,
-          'panel-name__name--pd2': typeModel == 2
-        }" @click="nameClick(i)">
+          'panel-name__name--pd2': typeModel == 2,
+        }"
+        @click="nameClick(i)"
+      >
         {{ item.name }}
-      </view>
-    </view>
-  </view>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -144,20 +178,30 @@ export default {
   },
   methods: {
     createCanvas() {
-      console.log("createCanvas", this.modelImage.url);
-      // var ctx = uni.createCanvasContext("firstCanvas");
-      var ctx = document.getElementById("firstCanvas");
-      ctx.drawImage(
-        this.modelImage.url,
-        0,
-        0,
-        this.$util.rpxToPx(this.modelImage.width),
-        this.$util.rpxToPx(this.modelImage.height)
+      console.log("要绘制的图片", this.modelImage);
+      var _canvas = document.getElementById("firstCanvas");
+      var ctx = _canvas.getContext("2d");
+      let img = new Image();
+      img.src = this.modelImage.url;
+      img.width = this.modelImage.width;
+      img.height = this.modelImage.height;
+      console.log(
+        "要绘制的图片",
+        img,
+        this.modelImage.width,
+        this.modelImage.height
       );
-      ctx.draw();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, this.modelImage.width, this.modelImage.height);
+        // ctx.drawImage(img, 0, 0);
+      };
+
+      // ctx.draw();
       this.pointList.forEach(x => {
-        ctx.drawImage(x.type.png, x.x, x.y, x.w, x.h);
-        ctx.draw(true);
+        let img = new Image();
+        img.src = x.type.png;
+        ctx.drawImage(img, x.x, x.y, x.w, x.h);
+        // ctx.draw(true);
       });
     },
     canvasIdErrorCallback(e) {
@@ -257,41 +301,43 @@ export default {
 
 <style lang="scss">
 .state-point-wrap {
-  margin: 0 20rpx;
+  margin: 0 20px;
   .btn-group {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 88rpx;
+    height: 88px;
     // border-bottom: solid 2px #eee;
-    margin-bottom: 20rpx;
+    margin-bottom: 20px;
     .edit-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 70rpx;
-      padding: 0 10rpx;
+      height: 70px;
+      padding: 0 10px;
       .edit-btn-img {
-        margin-right: 10rpx;
+        margin-right: 10px;
       }
       .edit-btn-text {
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-bottom: solid 6rpx rgba(0, 0, 0, 0);
+        border-bottom: solid 6px rgba(0, 0, 0, 0);
       }
       &.edit-btn.edit-btn--active .edit-btn-text {
         color: #e97e51;
-        border-bottom: solid 6rpx #e97e51;
+        border-bottom: solid 6px #e97e51;
       }
     }
   }
-  .panel-view {
-    height: 310rpx;
+  .panel-div {
+    height: 310px;
     position: relative;
     overflow: hidden;
-    margin-bottom: 30rpx;
+    margin-bottom: 30px;
+    width: 1396px;
+    height: 736px;
     .panel-canvas {
       position: absolute;
       transition: all 0.3s;
@@ -301,11 +347,11 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60rpx;
-    padding: 10rpx 0;
+    height: 60px;
+    padding: 10px 0;
     .panel-name__name {
-      font-size: 28rpx;
-      width: 100rpx;
+      font-size: 28px;
+      width: 100px;
       text-align: center;
       color: #808080;
       transition: all 0.3s;
@@ -314,13 +360,13 @@ export default {
         color: #101010;
         font-weight: 600;
         border: 2px solid #e2e5ee;
-        border-radius: 30rpx;
+        border-radius: 30px;
       }
       &.panel-name__name--pd1 {
-        padding: 8rpx 18rpx;
+        padding: 8px 18px;
       }
       &.panel-name__name--pd2 {
-        padding: 8rpx 4rpx;
+        padding: 8px 4px;
       }
     }
   }
